@@ -3,11 +3,22 @@ import pandas as pd
 import pickle
 from typing import Tuple
 
-def train_test_split(X:np.ndarray, y:np.ndarray)->Tuple:
-    n=X.shape[0]
-    half=n//2
-    X_train,X_test=X[:half],X[half:]
-    y_train,y_test=y[:half],y[half:]
+def train_test_split(X: np.ndarray, y: np.ndarray, test_size: float = 0.2, shuffle: bool = True, random_state: int = None) -> Tuple:
+    n = X.shape[0]
+    if random_state is not None:
+        np.random.seed(random_state)
+    indices = np.arange(n)
+    
+    if shuffle:
+        np.random.shuffle(indices)
+
+    X = X[indices]
+    y = y[indices]
+
+    split_idx = int(n * (1 - test_size))
+    X_train, X_test = X[:split_idx], X[split_idx:]
+    y_train, y_test = y[:split_idx], y[split_idx:]
+
     return X_train, X_test, y_train, y_test
 
 class StandardScalar:

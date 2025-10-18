@@ -1,7 +1,7 @@
 import numpy as np
 from typing import Tuple
 class LogisticRegression:
-    def __init__(self, lr=0.01, n_iter=1000):
+    def __init__(self, lr=0.05, n_iter=1000):
         self.lr = lr
         self.n_iter= n_iter
         self.w=None
@@ -20,7 +20,7 @@ class LogisticRegression:
             y_pred = self._sigmoid(z)
             error = y_pred - y
 
-            dw= (1/m)*(X.T@error)
+            dw= (1/m)* np.dot(X.T,error)
             db =(1/m)*np.sum(error)
 
             self.w-=self.lr*dw

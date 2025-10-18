@@ -28,7 +28,7 @@ def example_linear():
     X_train_s = scaler.fit_transform(X_train)
     X_test_s = scaler.transform(X_test)
     #training the model
-    model = LinearRegression(lr=0.05, n_iter=2000)
+    model = LinearRegression()
     model.fit(X_train_s, y_train)
     #predicting the model
     preds = model.predict(X_test_s)
@@ -50,11 +50,11 @@ def example_logistic():
     X_train_s = scaler.fit_transform(X_train)
     X_test_s = scaler.transform(X_test)
     #training the model
-    model = LogisticRegression(lr=0.5, n_iter=1000)
+    model = LogisticRegression(lr=0.05, n_iter=1000)
     model.fit(X_train_s, y_train)
     #predicting the model
     preds = model.predict(X_test_s)
-    acc = mean_squared_error(y_test, preds)
+    acc = accuracy(y_test, preds)
     print(f"Logistic Regression accuracy: {acc:.4f}")
     #saving the model
     save_model({'model': model, 'scaler': scaler}, os.path.join(MODELS_ROOT, "logistic_model.pkl"))
@@ -66,7 +66,7 @@ def example_knn():
     iris = load_iris(as_frame=False)
     X, y = iris.data, iris.target    
     #splitting the data
-    X_train, X_test, y_train, y_test= train_test_split(X,y)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, shuffle=True)
     scaler = StandardScalar()
     #fitting the data
     X_train_s = scaler.fit_transform(X_train)
@@ -76,7 +76,7 @@ def example_knn():
     model.fit(X_train_s, y_train)
     #predicting the model
     preds = model.predict(X_test_s)
-    acc = mean_squared_error(y_test, preds)
+    acc = accuracy(y_test, preds)
     print(f"KNN accuracy: {acc:.4f}")
     #saving the model
     save_model({'model': model, 'scaler': scaler}, os.path.join(MODELS_ROOT, "KNN_model.pkl"))
